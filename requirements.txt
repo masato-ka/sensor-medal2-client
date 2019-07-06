@@ -1,0 +1,4 @@
+configargparser
+jwt
+bluepy
+paho-mqtt

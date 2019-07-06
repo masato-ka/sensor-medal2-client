@@ -1,6 +1,15 @@
+import os
 import time
 
+from config.config_manager import ConfigManager
 from device.sensor_medal import SensorMedal, get_medal_data
+from iot_client.cloud_iot_core import CloudIoTCoreClient
+
+iot_core_client = None
+
+def inject_config():
+    config_manager = ConfigManager(os.path.dirname(os.path.abspath(__file__)))
+    iot_core_client = CloudIoTCoreClient(config_manager)
 
 
 def check_status(sensor_medal:SensorMedal):
@@ -8,7 +17,6 @@ def check_status(sensor_medal:SensorMedal):
         return 'storage'
 
     return 'using'
-
 
 
 if __name__ == '__main__':
