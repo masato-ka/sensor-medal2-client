@@ -62,7 +62,7 @@ class CloudIoTCoreClient:
                 self._client.connect(self._mqtt_bridge_hostname, self._mqtt_bridge_port)
             seconds_since_issue = (datetime.datetime.utcnow() - jwt_iat).seconds
             if seconds_since_issue > 60 * jwt_exp_mins:
-                logger.info('Refreshing token after {}s').format(seconds_since_issue)
+                logger.info('Refreshing token after {}s'.format(seconds_since_issue))
                 jwt_iat = datetime.datetime.utcnow()
                 self._client = self._get_client()
 
