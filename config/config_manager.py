@@ -1,5 +1,5 @@
 import os
-import configargparser
+import configargparse
 
 class ConfigManager:
 

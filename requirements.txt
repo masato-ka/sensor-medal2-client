@@ -1,4 +1,4 @@
-configargparser
-jwt
+ConfigArgParse
+PyJWT
 bluepy
 paho-mqtt

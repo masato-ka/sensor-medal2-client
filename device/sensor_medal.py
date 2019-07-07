@@ -34,20 +34,28 @@ class SensorMedal:
 
 
 
-def get_medal_data(device_ids):
+class MedalManager:
 
-    scanner = btle.Scanner(0)
-    devices = scanner.scan(3.0)
-    sensor_medals = []
-    for d in devices:
-        try:
-            if d.scanData[8].decode() in device_ids:
-                sensor_medal = SensorMedal(d.scanData[8], d.rssi, d.scanData[255])
-                sensor_medals.append(sensor_medal)
-        except KeyError:
-            pass
+    def check_status(self, sensor_medal:SensorMedal):
+        if sensor_medal.rssi > -55 and sensor_medal.lumix < 10:
+            return 'storage'
 
-    return sensor_medals
+        return 'using'
+
+    def get_medal_data(self, device_ids):
+
+        scanner = btle.Scanner(0)
+        devices = scanner.scan(3.0)
+        sensor_medals = []
+        for d in devices:
+            try:
+                if d.scanData[8].decode() in device_ids:
+                    sensor_medal = SensorMedal(d.scanData[8], d.rssi, d.scanData[255])
+                    sensor_medals.append(sensor_medal)
+            except KeyError:
+                pass
+
+        return sensor_medals
 
 
 
