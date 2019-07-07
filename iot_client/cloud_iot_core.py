@@ -95,6 +95,7 @@ class CloudIoTCoreClient:
         logger.info('on_publish')
 
     def _on_message(self, unused_client, unused_userdata, message):
+        logger.info("on_message")
         logger.info(message.payload.decode("utf-8"))
         self._observer.notify(message.payload.decode("utf-8"))
 

@@ -20,17 +20,17 @@ class ClientController:
         self.mqtt_client = mqtt_client
         self.mqtt_client.setObserver(self)
         self.medal_manager = medal_manager
-        self.deviceList = []
+        self.deviceList = ['ROHMMedal2_0073_01.00']
 
     def search(self):
         while True:
             time.sleep(5)
-            medals = self.medal_manager.get_medal_data(['ROHMMedal2_0073_01.00'])
+            medals = self.medal_manager.get_medal_data(self.deviceList)
             for medal in medals:
                 self.logger.info(medal)
                 self.logger.info(self.medal_manager.check_status(medal))
                 try:
-                    d = {'status':self.medal_manager.check_status(medal),
+                    d = {'deviceId':medal.deviceId ,'status':self.medal_manager.check_status(medal),
                          'accel_x':medal.accel_x, 'accel_y':medal.accel_y ,'accel_z':medal.accel_z,
                          'pressure':medal.pressure, 'lumix':medal.lumix,'rssi':medal.rssi}
                     payload = json.dumps(d)
@@ -50,8 +50,8 @@ class ClientController:
 
     def notify(self, event):
         self.logger.debug("Get event from IoT Core: {}".format(event))
-        event.split('')
-
+        self.deviceList = event.split(',')
+        self.logger.info("device lsit: {}".format(self.deviceList))
         #event_map = json.loads(event)
         #self._event_router(event_map)
 
