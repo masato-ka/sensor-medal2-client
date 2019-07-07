@@ -30,9 +30,9 @@ class ClientController:
                 self.logger.info(medal)
                 self.logger.info(self.medal_manager.check_status(medal))
                 try:
-                    d = {'deviceId':medal.deviceId ,'status':self.medal_manager.check_status(medal),
+                    d = {'status':self.medal_manager.check_status(medal),
                          'accel_x':medal.accel_x, 'accel_y':medal.accel_y ,'accel_z':medal.accel_z,
-                         'pressure':medal.pressure, 'lumix':medal.lumix,'rssi':medal.rssi}
+                         'pressure':medal.pressure, 'lumix':medal.lumix,'rssi':medal.rssi, 'device':medal.deviceId.decode()}
                     payload = json.dumps(d)
                     self.mqtt_client.publish_telemetry(payload,'object')
                 except KeyError or TypeError:
