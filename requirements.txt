@@ -2,3 +2,4 @@ ConfigArgParse
 PyJWT
 bluepy
 paho-mqtt
+grpcio-tools

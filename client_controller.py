@@ -2,7 +2,7 @@ import threading
 import time
 import json
 from json import JSONDecodeError
-
+from datetime import datetime
 from device.sensor_medal import SensorMedal, MedalManager
 from iot_client.cloud_iot_core import CloudIoTCoreClient
 from logging import getLogger
@@ -29,16 +29,17 @@ class ClientController:
             for medal in medals:
                 self.logger.info(medal)
                 self.logger.info(self.medal_manager.check_status(medal))
+                now = time.time()
                 try:
-                    d = {'status':self.medal_manager.check_status(medal),
+                    d = {'unixtime':now, 'status':self.medal_manager.check_status(medal),
                          'accel_x':medal.accel_x, 'accel_y':medal.accel_y ,'accel_z':medal.accel_z,
                          'pressure':medal.pressure, 'lumix':medal.lumix,'rssi':medal.rssi, 'device':medal.deviceId.decode()}
                     payload = json.dumps(d)
                     self.mqtt_client.publish_telemetry(payload,'object')
                 except KeyError or TypeError:
-                    self.logger.warning("Failed get device info {}".format(result))
+                    self.logger.warning("Failed get device info {}".format(d))
                 except TypeError:
-                    self.logger.warning("Device info is type error. must be dict {}".format(result))
+                    self.logger.warning("Device info is type error. must be dict {}".format(d))
                 except JSONDecodeError as e:
                     self.logger.warning("Failed device info serialized to string by json.dumps ")
 

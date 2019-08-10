@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package sample;
+
+message RecordMessage{
+    string message = 1;
+}
+
+message ReplyMessage{
+    string reply_msg = 1;
+}
+
+message DeviceList{
+    string device_list = 1;
+}
+
+service RecordService {
+    rpc Record(RecordMessage) returns (ReplyMessage) {};
+    rpc GetDeviceList(RecordMessage) returns (DeviceList) {};
+}
