@@ -60,6 +60,13 @@ class ConfigManager:
                         default=20,
                         type=int,
                         help=('Expiration time, in minutes, for JWT tokens.'))
+        self.parser.add('--grpc_ip',
+                        default='localhost',
+                        help='set IP address of grpc server ')
+        self.parser.add('--grpc_port',
+                        default=50051,
+                        type=int,
+                        help='set port number of grpc server ')
 
         self.options = self.parser.parse_args()
 

@@ -4,6 +4,7 @@ import grpc
 
 import sample_pb2
 import sample_pb2_grpc
+from config.config_manager import ConfigManager
 
 
 class GrpcClient():
@@ -11,8 +12,11 @@ class GrpcClient():
     logger = getLogger(__name__)
     _observer = None
 
-    def __init__(self):
-        channel = grpc.insecure_channel('192.168.10.8:50051')
+    def __init__(self, config_manager: ConfigManager):
+        self.config_manager = config_manager
+        ip = self.config_manager.options.grpc_ip
+        port = self.config_manager.options.grpc_port
+        channel = grpc.insecure_channel('{}:{}'.format(ip,port))
         self.stub = sample_pb2_grpc.RecordServiceStub(channel)
 
     def connect(self):
